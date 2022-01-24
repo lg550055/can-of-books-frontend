@@ -1,11 +1,33 @@
-# Start your own "Can of Books" App
+# Can of Books Frontend
 
-This repository has starter code to begin work on creating your own online bookshelf.
+**Author**: Polo Gonzalez
+**Version**: 1.0.0
 
-## What can books do?
+## Overview
+Responsive web application that allows a user to login/logout and access a database of favorite books.
 
-Books are life-changing. They have the power to enlighten, educate, entertain, heal, and help us grow. Build out this code base to create an web app to track what books have impacted you, and what's recommended to read next.
+## Getting Started
+- Dependencies on package.json
+- May use npm build
+- Then npm start
 
-## Use this template
+## Architecture
+React app allows user to enter a query to prompt the server API for a list of favorite books.  Axios fetches the data.  App is formed of separate funcional components.
 
-Clone this repo to your own account with the green "Use this template" button. Then, add any collaborators. Now you are ready to start adding features! Deploy your site to let the world know which books have had the greatest impact on you, and what's recommended. Enjoy!
+## Change Log
+<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
+
+01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+
+## Credit and Collaborations
+- Ryan Gallaway - Instructor
+- Riva Davidowski - TA
+
+---
+
+## Estimates
+Name of feature: Book request
+Estimate of time needed to complete: 120 min
+Start time: _____
+Finish time: _____
+Actual time needed to complete: _____
