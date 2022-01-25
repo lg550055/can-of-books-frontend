@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 class BestBooks extends React.Component {
@@ -9,6 +10,11 @@ class BestBooks extends React.Component {
   }
 
   /* TODO: Make a GET request to your API to fetch books for the logged in user  */
+  getBooks = async () => {
+    let url = `${process.env.REACT_APP_SERVER_URL}/books`;
+    let booksData = await axios.get(url);
+    this.setState({books: booksData.data});
+  }
 
   render() {
 
