@@ -16,6 +16,10 @@ class BestBooks extends React.Component {
     this.setState({books: booksData.data});
   }
 
+  componentDidMount() {
+    this.getBooks()
+  }
+
   render() {
 
     /* TODO: render user's books in a Carousel */
