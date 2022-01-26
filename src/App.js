@@ -31,7 +31,7 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              { this.state.user ? <BestBooks /> : <Login /> }
+              { this.state.user ? <BestBooks user={this.state.user}/> : <Login onLogin={this.loginHandler} /> }
               {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
             </Route >
             <Route path="/profile">

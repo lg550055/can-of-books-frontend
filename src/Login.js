@@ -1,6 +1,7 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
+import { Card } from 'react-bootstrap';
 import './Login.css';
+import LoginButton from './LoginButton';
 
 class Login extends React.Component {
   render() {
@@ -11,7 +12,7 @@ class Login extends React.Component {
           <Card.Text>
             Click Below to Log In
           </Card.Text>
-          {/* TODO: add a `LoginButton` component here that will log the user in */}
+          <LoginButton onLogin={this.props.onLogin}>Log In</LoginButton>
         </Card.Body>
       </Card>
     )
