@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Pic from './stars.jpeg'
 import BookFormModal from './BookFormModal'
+import UpdateModal from './UpdateModal';
 import { Button, Container, Carousel } from 'react-bootstrap';
 
 class BestBooks extends React.Component {
@@ -9,7 +10,8 @@ class BestBooks extends React.Component {
     super(props);
     this.state = {
       books: [],
-      showBookForm: false
+      showBookForm: false,
+      showUpdateForm: false
     }
   }
   
@@ -36,11 +38,20 @@ class BestBooks extends React.Component {
   deleteBook = async (id) => {
     try {
       await axios.delete(this.url + '/' + id);
-      // need to update state, for updated list to render w/o making a new API call
+      let updatedBooks = this.state.books.filter(bk => bk._id !== id);
+      this.setState({books: updatedBooks})
     } catch(err) { console.error(err) }
   }
 
-  handleClose = () => { this.setState({showBookForm: false})}
+  updateBook = async (book) => {
+    try {
+      let uBook = await axios.put(this.url + '/' + book._id, book);
+      let updatedBooks = this.state.books.map(bk => bk._id === uBook.data._id ? uBook.data : bk);
+      this.setState({books: updatedBooks})
+    } catch(err) { console.error(err) }
+  }
+  
+  handleClose = () => { this.setState({showBookForm: false, showUpdateForm: false}) }
 
   render() {
     /* DONE: render user's books in a Carousel */
@@ -50,7 +61,8 @@ class BestBooks extends React.Component {
          <Carousel.Caption>
           <h5>{b.title}</h5>
           <p>{b.description}</p>
-          <Button variant="outline-light" size="sm" onClick={() => this.deleteBook(b._id)}>Delete Book</Button>
+          <Button variant="outline-light" size="sm" onClick={() => this.setState({showUpdateForm: true})}>Delete/Update Book</Button>
+          <UpdateModal show={this.state.showUpdateForm} book={b} handleClose={this.handleClose} updateBook={this.updateBook} deleteBook={this.deleteBook}/>
          </Carousel.Caption>
        </Carousel.Item>
     )
