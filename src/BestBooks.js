@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withAuth0 } from '@auth0/auth0-react';
 import Pic from './stars.jpeg'
 import BookFormModal from './BookFormModal'
 import UpdateModal from './UpdateModal';
@@ -15,11 +16,23 @@ class BestBooks extends React.Component {
     }
   }
   
-  url = `${process.env.REACT_APP_SERVER}/books`;
-  /* DONE: Make a GET request to your API to fetch books for the logged in user  */
+  url = `${process.env.REACT_APP_SERVER}/books`;  //class variable to avoid repetition
+
   getBooks = async () => {
-    let booksData = await axios.get(this.url);
-    this.setState({books: booksData.data});
+    if (this.props.auth0.isAuthenticaded) {
+      const responseFromAuth0 = await this.props.auth0.getIdTokenClaims();
+      const jwt = responseFromAuth0.__raw; // notice double underscore
+      console.log(jwt);
+      // per axios docs; property names are specific
+      const config = {
+        method: 'get',
+        baseURL: process.env.REACT_APP_SERVER_URL,
+        url: '/books',
+        headers: { "Authorization": `Bearer ${jwt}`}
+      }
+      let books = await axios.get(config);
+      this.setState({books: books.data});  
+    }
   }
 
   componentDidMount() {
@@ -54,7 +67,6 @@ class BestBooks extends React.Component {
   handleClose = () => { this.setState({showBookForm: false, showUpdateForm: false}) }
 
   render() {
-    /* DONE: render user's books in a Carousel */
     let bookList = this.state.books.map((b,i) => 
       <Carousel.Item key={i}>
          <img className="d-block w-100" src={Pic} alt='Slide'/>
@@ -77,7 +89,7 @@ class BestBooks extends React.Component {
           show={this.state.showBookForm}
           handleClose={this.handleClose}
           addBook={this.addBook}
-          email={this.props.user.email}/>
+          email={this.props.auth0.user.email}/>
         
         {this.state.books.length ?
           <Container>
@@ -91,4 +103,4 @@ class BestBooks extends React.Component {
   }
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);
